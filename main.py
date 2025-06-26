@@ -109,7 +109,7 @@ class ModelExtractionWindow(QMainWindow):
                 oApp = client.Dispatch("SIwave.Application.2025.1")
                 oApp.RestoreWindow()
                 oDoc = oApp.GetActiveProject()
-                oApp.ScrImportEDB(folder)
+                oDoc.ScrImportEDB(folder)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
