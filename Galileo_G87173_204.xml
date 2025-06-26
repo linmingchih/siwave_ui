@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<c:Control xmlns:c="http://www.ansys.com/control" schemaVersion="1.0">
+
+  <Stackup schemaVersion="1.0">
+    <Materials>
+      <Material Name="vacuum">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="AIR">
+        <Permittivity>
+          <Double>1</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="COPPER">
+        <Permeability>
+          <Double>1</Double>
+        </Permeability>
+        <Conductivity>
+          <Double>59590000</Double>
+        </Conductivity>
+      </Material>
+      <Material Name="FR4_epoxy">
+        <Permittivity>
+          <Double>4.4</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.02</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="FR-4">
+        <Permittivity>
+          <Double>3.86</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.024</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="BOTTOM_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="FR-4_1">
+        <Permittivity>
+          <Double>4.34</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.018</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="FR-4_2">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="GND_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="LYR_1_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="LYR_2_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="PWR_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0.035</Double>
+        </DielectricLossTangent>
+      </Material>
+      <Material Name="TOP_FILL">
+        <Permittivity>
+          <Double>4.5</Double>
+        </Permittivity>
+        <DielectricLossTangent>
+          <Double>0</Double>
+        </DielectricLossTangent>
+      </Material>
+    </Materials>
+    <Layers LengthUnit="mm">
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="2.034540" FillMaterial="AIR" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="1" Material="AIR" Name="UNNAMED_000" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.000000" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#c4ab1e" Elevation="1.986280" EtchFactor="0" FillMaterial="TOP_FILL" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="2" Material="COPPER" Name="TOP" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.048260" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="1.918970" FillMaterial="FR-4" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="3" Material="FR-4" Name="UNNAMED_002" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.067310" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#988fc0" Elevation="1.885950" EtchFactor="0" FillMaterial="PWR_FILL" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="4" Material="COPPER" Name="PWR" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.033020" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="0.615950" FillMaterial="FR-4_1" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="5" Material="FR-4_1" Name="UNNAMED_004" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="1.270000" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#8de1da" Elevation="0.585470" EtchFactor="0" FillMaterial="FR-4_2" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="6" Material="COPPER" Name="LYR_1" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.030480" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="0.382270" FillMaterial="FR-4_2" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="7" Material="FR-4_2" Name="UNNAMED_006" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.203200" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#e89583" Elevation="0.351790" EtchFactor="0" FillMaterial="FR-4_2" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="8" Material="COPPER" Name="LYR_2" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.030480" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="0.148590" FillMaterial="FR-4_2" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="9" Material="FR-4_2" Name="UNNAMED_008" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.203200" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#83ae8e" Elevation="0.115570" EtchFactor="0" FillMaterial="FR-4_2" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="10" Material="COPPER" Name="GND" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.033020" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="0.048260" FillMaterial="FR-4" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="11" Material="FR-4" Name="UNNAMED_010" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.067310" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#b7bf91" Elevation="0.000000" EtchFactor="0" FillMaterial="BOTTOM_FILL" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="12" Material="COPPER" Name="BOTTOM" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.048260" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="conductor" TypeSI="conductor">
+        <GroissSurfaceRoughness Roughness="0mm"/>
+        <GroissBottomSurfaceRoughness Roughness="0mm"/>
+        <GroissSideSurfaceRoughness Roughness="0mm"/>
+      </Layer>
+      <Layer AbsValueOfBotWidthForTCS="0.000000" AbsValueOfTopWidthForTCS="0.000000" BottomRoughness="0.000000" BottomRoughnessHurayModel="" Color="#7f7f7f" Elevation="0.000000" FillMaterial="AIR" IsBottomRoughnessHuray="false" IsFlipOrientationForTCS="false" IsSideRoughnessHuray="false" IsThicknessInvolvedForTCS="true" IsTopRoughnessHuray="false" IsUserDefinedAbsValForTCS="false" LayerID="13" Material="AIR" Name="UNNAMED_012" SideRoughness="0.000000" SideRoughnessHurayModel="" Thickness="0.000000" TopRoughness="0.000000" TopRoughnessHurayModel="" TraceCrossSectionBottomEdgeRatio="1.000000" TraceCrossSectionEtchStyle="0" TraceCrossSectionShape="0" TraceCrossSectionTopEdgeRatio="1.000000" Type="dielectric" TypeSI="dielectric"/>
+    </Layers>
+  </Stackup>
+
+  <SIMaterials>
+    <Insulator AnsoftID="2" DerivedFrom="vacuum" LossTangent="0.000000" Name="AIR" Permittivity="1.000000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Conductor AnsoftID="4" Conductivity="59590000.000000" DerivedFrom="vacuum" Name="COPPER" Permeability="1.000000"/>
+    <Insulator AnsoftID="13" DerivedFrom="vacuum" LossTangent="0.020000" Name="FR4_epoxy" Permittivity="4.400000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.024000" Name="FR-4" Permittivity="3.860000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.000000" Name="BOTTOM_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.018000" Name="FR-4_1" Permittivity="4.340000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.035000" Name="FR-4_2" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.035000" Name="GND_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.035000" Name="LYR_1_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.035000" Name="LYR_2_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.035000" Name="PWR_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+    <Insulator AnsoftID="0" DerivedFrom="vacuum" LossTangent="0.000000" Name="TOP_FILL" Permittivity="4.500000">
+      <Djordjevic-Sarkar EpsDC="0.000000" MeasurementFreq="1000000000.000000" SigmaDC="0.000000"/>
+    </Insulator>
+  </SIMaterials>
+
+  <HurayModels>
+    <HurayModel MetalSphereRadius="0.000500" ModelName="Low Loss" SpheresPerUnitCell="0.318310" UnitCellArea="0.000001"/>
+    <HurayModel MetalSphereRadius="0.000500" ModelName="Medium Loss" SpheresPerUnitCell="0.954930" UnitCellArea="0.000001"/>
+    <HurayModel MetalSphereRadius="0.000500" ModelName="High Loss" SpheresPerUnitCell="1.909859" UnitCellArea="0.000001"/>
+  </HurayModels>
+
+</c:Control>
