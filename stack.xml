@@ -1,0 +1,179 @@
+$begin 'StackupLayers'
+	Units('mm')
+	$begin 'Layers'
+		Layer(LayerID=1, LayerName='UNNAMED_000', LayerType=0, IsNegative=true, Material='AIR', Elevation=2.03454, Thickness=0, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=2, LayerName='TOP', LayerType=2, IsNegative=true, Material='COPPER', Elevation=1.98628, Thickness=0.04826, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='TOP_FILL', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(196, 171, 30))
+		Layer(LayerID=3, LayerName='UNNAMED_002', LayerType=0, IsNegative=true, Material='FR-4', Elevation=1.91897, Thickness=0.06731000000000001, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=4, LayerName='PWR', LayerType=2, IsNegative=true, Material='COPPER', Elevation=1.88595, Thickness=0.03302, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='PWR_FILL', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(152, 143, 192))
+		Layer(LayerID=5, LayerName='UNNAMED_004', LayerType=0, IsNegative=true, Material='FR-4_1', Elevation=0.61595, Thickness=1.27, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=6, LayerName='LYR_1', LayerType=2, IsNegative=true, Material='COPPER', Elevation=0.58547, Thickness=0.03048, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='FR-4_2', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(141, 225, 218))
+		Layer(LayerID=7, LayerName='UNNAMED_006', LayerType=0, IsNegative=true, Material='FR-4_2', Elevation=0.3822700000000001, Thickness=0.2032, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=8, LayerName='LYR_2', LayerType=2, IsNegative=true, Material='COPPER', Elevation=0.35179, Thickness=0.03048, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='FR-4_2', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(232, 149, 131))
+		Layer(LayerID=9, LayerName='UNNAMED_008', LayerType=0, IsNegative=true, Material='FR-4_2', Elevation=0.14859, Thickness=0.2032, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=10, LayerName='GND', LayerType=2, IsNegative=true, Material='COPPER', Elevation=0.11557, Thickness=0.03302, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='FR-4_2', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(131, 174, 142))
+		Layer(LayerID=11, LayerName='UNNAMED_010', LayerType=0, IsNegative=true, Material='FR-4', Elevation=0.04826, Thickness=0.06731000000000001, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+		Layer(LayerID=12, LayerName='BOTTOM', LayerType=2, IsNegative=true, Material='COPPER', Elevation=0, Thickness=0.04826, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='BOTTOM_FILL', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(183, 191, 145))
+		Layer(LayerID=13, LayerName='UNNAMED_012', LayerType=0, IsNegative=true, Material='AIR', Elevation=0, Thickness=0, TopRoughness=0, BottomRoughness=0, SideRoughness=0, IsTopRoughnessHuray=false, IsBottomRoughnessHuray=false, IsSideRoughnessHuray=false, TopRoughnessHurayModel='', BottomRoughnessHurayModel='', SideRoughnessHurayModel='', DefinedDielectricFill='', TraceCrossSectionShape=0, TraceCrossSectionEtchStyle=0, TraceCrossSectionTopEdgeRatio=1, TraceCrossSectionBottomEdgeRatio=1, IsUserDefinedAbsValForTCS=false, AbsValueOfTopWidthForTCS=0, AbsValueOfBotWidthForTCS=0, IsThicknessInvolvedForTCS=true, IsFlipOrientationForTCS=0, Color(127, 127, 127))
+	$end 'Layers'
+	$begin 'Materials'
+		$begin 'Insulator'
+			Name='AIR'
+			Permittivity=1
+			LossTangent=0
+			DerivedFrom='vacuum'
+			AnsoftID=2
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Conductor'
+			Name='COPPER'
+			Conductivity=59590000
+			Permeability=1
+			DerivedFrom='vacuum'
+			AnsoftID=4
+		$end 'Conductor'
+		$begin 'Insulator'
+			Name='FR4_epoxy'
+			Permittivity=4.4
+			LossTangent=0.02
+			DerivedFrom='vacuum'
+			AnsoftID=13
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='FR-4'
+			Permittivity=3.86
+			LossTangent=0.024
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='BOTTOM_FILL'
+			Permittivity=4.5
+			LossTangent=0
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='FR-4_1'
+			Permittivity=4.34
+			LossTangent=0.018
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='FR-4_2'
+			Permittivity=4.5
+			LossTangent=0.035
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='GND_FILL'
+			Permittivity=4.5
+			LossTangent=0.035
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='LYR_1_FILL'
+			Permittivity=4.5
+			LossTangent=0.035
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='LYR_2_FILL'
+			Permittivity=4.5
+			LossTangent=0.035
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='PWR_FILL'
+			Permittivity=4.5
+			LossTangent=0.035
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+		$begin 'Insulator'
+			Name='TOP_FILL'
+			Permittivity=4.5
+			LossTangent=0
+			DerivedFrom='vacuum'
+			AnsoftID=0
+			$begin 'Djordjevic-Sarkar'
+				MeasurementFreq=1000000000
+				SigmaDC=1e-12
+				EpsDC=0
+			$end 'Djordjevic-Sarkar'
+		$end 'Insulator'
+	$end 'Materials'
+	$begin 'HurayModels'
+		$begin 'HurayModel'
+			ModelName='Low Loss'
+			MetalSphereRadius=0.0005
+			UnitCellArea=1e-06
+			SpheresPerUnitCell=0.3183098861837906
+		$end 'HurayModel'
+		$begin 'HurayModel'
+			ModelName='Medium Loss'
+			MetalSphereRadius=0.0005
+			UnitCellArea=1e-06
+			SpheresPerUnitCell=0.954929658551372
+		$end 'HurayModel'
+		$begin 'HurayModel'
+			ModelName='High Loss'
+			MetalSphereRadius=0.0005
+			UnitCellArea=1e-06
+			SpheresPerUnitCell=1.909859317102744
+		$end 'HurayModel'
+	$end 'HurayModels'
+$end 'StackupLayers'
