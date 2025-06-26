@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QFileDialog,
 )
+import os
 from win32com import client
 from PySide6.QtGui import QFont, QPalette, QColor
 from PySide6.QtCore import Qt
@@ -97,12 +98,14 @@ class ModelExtractionWindow(QMainWindow):
 
     def handle_item_double_clicked(self, item: QTreeWidgetItem, column: int):
         if item.text(0) == "Load Layout File" and not item.isDisabled():
-            folder = QFileDialog.getExistingDirectory(
+            edb_file, _ = QFileDialog.getOpenFileName(
                 self,
-                "Select EDB Folder",
+                "Select edb.def",
                 "",
+                "edb.def (edb.def)"
             )
-            if folder:
+            if edb_file:
+                folder = os.path.dirname(edb_file)
                 oApp = client.Dispatch("SIwave.Application.2025.1")
                 oApp.RestoreWindow()
                 oDoc = oApp.GetActiveProject()

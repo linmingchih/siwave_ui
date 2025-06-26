@@ -7,3 +7,6 @@ Run the application with:
 ```bash
 python main.py
 ```
+
+When prompted to load a layout, choose the `edb.def` file located inside your
+`.aedb` folder. The application will pass the folder to SIwave for import.
