@@ -6,6 +6,7 @@ from PySide6.QtWidgets import (
     QTreeWidgetItem,
     QVBoxLayout,
     QFileDialog,
+    QPlainTextEdit,
 )
 import os
 from win32com import client
@@ -34,7 +35,9 @@ class ModelExtractionWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("SIwave Model Extraction (Dark Mode)")
-        self.resize(360, 640)
+        self.setFixedSize(360, 640)
+        self.move(0, 0)
+        self.setWindowFlag(Qt.WindowStaysOnTopHint)
 
         central = QWidget()
         self.setCentralWidget(central)
@@ -96,6 +99,12 @@ class ModelExtractionWindow(QMainWindow):
 
         layout.addWidget(self.tree)
 
+        self.messages = QPlainTextEdit()
+        self.messages.setReadOnly(True)
+        self.messages.setPlaceholderText("Messages")
+        self.messages.setFixedHeight(120)
+        layout.addWidget(self.messages)
+
     def handle_item_double_clicked(self, item: QTreeWidgetItem, column: int):
         if item.text(0) == "Load Layout File" and not item.isDisabled():
             edb_file, _ = QFileDialog.getOpenFileName(
@@ -110,6 +119,7 @@ class ModelExtractionWindow(QMainWindow):
                 oApp.RestoreWindow()
                 oDoc = oApp.GetActiveProject()
                 oDoc.ScrImportEDB(folder)
+                self.messages.appendPlainText(f"Loaded layout: {folder}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
