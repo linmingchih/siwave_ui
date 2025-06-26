@@ -95,7 +95,8 @@ class StackupDialog(QDialog):
         self.resize(600, 400)
 
         self.xml_path = xml_path
-        self.doc = doc
+        # store the SIwave document handle for later use
+        self.oDoc = doc
         try:
             self.tree = parse_stackup_file(xml_path)
         except Exception as exc:
@@ -233,9 +234,14 @@ class StackupDialog(QDialog):
 
     def apply_changes(self):
         self._save_changes()
-        if self.oDoc is not None:
+        if getattr(self, "oDoc", None) is not None:
             try:
                 self.oDoc.ScrImportLayerStackup(self.xml_path)
+                parent = self.parent()
+                if parent and hasattr(parent, "messages"):
+                    parent.messages.appendPlainText(
+                        "Imported stackup from {}".format(self.xml_path)
+                    )
             except Exception as exc:
                 QMessageBox.warning(self, "Error", f"Failed to import stackup:\n{exc}")
 
