@@ -10,3 +10,5 @@ python main.py
 
 When prompted to load a layout, choose the `edb.def` file located inside your
 `.aedb` folder. The application will pass the folder to SIwave for import.
+
+The stackup configuration exported by the application is saved as `stack.xml` in the current working directory. Use this file when editing or importing stackup settings.
