@@ -12,6 +12,7 @@ from PySide6.QtWidgets import (
     QTableWidget,
     QTableWidgetItem,
     QDialogButtonBox,
+    QMessageBox,
 )
 import os
 from win32com import client
@@ -45,7 +46,15 @@ class StackupDialog(QDialog):
         self.resize(600, 400)
 
         self.xml_path = xml_path
-        self.tree = ET.parse(xml_path)
+        try:
+            self.tree = ET.parse(xml_path)
+        except (ET.ParseError, FileNotFoundError) as exc:
+            QMessageBox.critical(
+                self,
+                "Error",
+                f"Failed to parse stackup file:\n{exc}"
+            )
+            raise
         self.root = self.tree.getroot()
         self.stackup = self.root.find("Stackup")
         self.layers = self.stackup.find("Layers").findall("Layer")
@@ -250,7 +259,10 @@ class ModelExtractionWindow(QMainWindow):
                 return
             xml_path = os.path.join(os.getcwd(), "stack.xml")
             self.oDoc.ScrExportLayerStackup(xml_path)
-            dlg = StackupDialog(xml_path, self)
+            try:
+                dlg = StackupDialog(xml_path, self)
+            except Exception:
+                return
             if dlg.exec() == QDialog.Accepted:
                 self.oDoc.ScrImportLayerStackup(xml_path)
                 self.messages.appendPlainText("Stackup updated")
