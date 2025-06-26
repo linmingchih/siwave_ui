@@ -1,144 +1,94 @@
-import sys
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QLabel, QPushButton, QVBoxLayout,
-    QHBoxLayout, QFileDialog, QListWidget, QLineEdit, QFormLayout,
-    QProgressBar, QGroupBox, QComboBox
+    QApplication, QMainWindow, QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout
 )
-from PySide6.QtGui import QFont
+from PySide6.QtGui import QFont, QPalette, QColor
+from PySide6.QtCore import Qt
+import sys
 
-class PIApp(QMainWindow):
+def apply_dark_theme(app: QApplication):
+    """設定深色主題調色盤"""
+    palette = QPalette()
+    # 背景色
+    palette.setColor(QPalette.Window, QColor(30, 30, 30))
+    palette.setColor(QPalette.Base, QColor(25, 25, 25))
+    # 文字色
+    palette.setColor(QPalette.WindowText, Qt.white)
+    palette.setColor(QPalette.Text, Qt.white)
+    # 按鈕
+    palette.setColor(QPalette.Button, QColor(45, 45, 45))
+    palette.setColor(QPalette.ButtonText, Qt.white)
+    # 選取
+    palette.setColor(QPalette.Highlight, QColor(80, 80, 80))
+    palette.setColor(QPalette.HighlightedText, Qt.white)
+    app.setPalette(palette)
+
+class ModelExtractionWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SIwave PI Simulation")
-        self.setMinimumSize(900, 600)
-        self.init_ui()
-        self.apply_styles()
+        self.setWindowTitle("SIwave Model Extraction (Dark Mode)")
+        self.resize(360, 640)
 
-    def init_ui(self):
-        main_widget = QWidget()
-        main_layout = QVBoxLayout()
-        main_widget.setLayout(main_layout)
-        self.setCentralWidget(main_widget)
+        central = QWidget()
+        self.setCentralWidget(central)
+        layout = QVBoxLayout(central)
 
-        # Top section
-        title = QLabel("SIwave PI Simulation Tool")
-        desc = QLabel("This tool guides you through setting up and running a power integrity simulation.")
-        title.setFont(QFont("Segoe UI", 16, QFont.Bold))
-        desc.setWordWrap(True)
-        top_layout = QVBoxLayout()
-        top_layout.addWidget(title)
-        top_layout.addWidget(desc)
-        top_box = QGroupBox()
-        top_box.setLayout(top_layout)
+        tree = QTreeWidget()
+        tree.setHeaderHidden(True)
+        tree.setIndentation(12)
 
-        # Setup panel with simulation settings
-        setup_panel = QGroupBox("Setup")
-        setup_layout = QVBoxLayout()
+        title_font = QFont()
+        title_font.setPointSize(10)
+        title_font.setBold(True)
 
-        self.file_btn = QPushButton("Upload Layout")
-        self.file_btn.clicked.connect(self.load_file)
-        self.stackup_btn = QPushButton("Check Stackup")
-        self.nets_list = QListWidget()
-        self.nets_list.setToolTip("Select power/ground nets")
-        setup_layout.addWidget(self.file_btn)
-        setup_layout.addWidget(self.stackup_btn)
-        setup_layout.addWidget(QLabel("Nets"))
-        setup_layout.addWidget(self.nets_list)
+        root = QTreeWidgetItem(tree, ["Model Extraction"])
+        root.setFont(0, title_font)
+        tree.addTopLevelItem(root)
 
-        sim_settings_box = QGroupBox("Simulation Settings")
-        form_layout = QFormLayout()
-        self.freq_start = QLineEdit()
-        self.freq_stop = QLineEdit()
-        self.freq_step = QLineEdit()
-        tooltip_text = "Enter frequency range in GHz"
-        self.freq_start.setToolTip(tooltip_text)
-        self.freq_stop.setToolTip(tooltip_text)
-        self.freq_step.setToolTip(tooltip_text)
-        form_layout.addRow("Start freq", self.freq_start)
-        form_layout.addRow("Stop freq", self.freq_stop)
-        form_layout.addRow("Step", self.freq_step)
+        def add_section(parent, title, items, selected=None, disabled=None):
+            sec = QTreeWidgetItem(parent, [title])
+            sec.setFont(0, title_font)
+            for txt in items:
+                it = QTreeWidgetItem(sec, [txt])
+                if selected and txt in selected:
+                    it.setSelected(True)
+                if disabled and txt in disabled:
+                    it.setDisabled(True)
 
-        self.port_option = QComboBox()
-        self.port_option.addItems(["Auto", "Manual"])
-        form_layout.addRow("Port generation", self.port_option)
+        add_section(root, "Layout Setup",
+            ["Load Layout File", "Check Stackup", "Select Nets",
+             "Assign Capacitor Models", "Select Components"],
+            selected=["Check Stackup"]
+        )
 
-        self.cap_option = QComboBox()
-        self.cap_option.addItems(["Ideal", "Realistic"])
-        form_layout.addRow("Capacitor model", self.cap_option)
+        add_section(root, "Simulation Setup",
+            ["Enable Extraction Mode", "Generate Port(s)", "Setup Simulation Frequencies"],
+            selected=["Enable Extraction Mode"]
+        )
 
-        sim_settings_box.setLayout(form_layout)
-        setup_layout.addWidget(sim_settings_box)
-        setup_panel.setLayout(setup_layout)
+        add_section(root, "Simulation",
+            ["Check Errors/Warnings", "Set up Computer Resources",
+             "Start Simulation", "Report"],
+            disabled=["Start Simulation", "Report"]
+        )
 
-        # Bottom section with button and progress bar
-        bottom_layout = QHBoxLayout()
-        self.run_btn = QPushButton("Start Simulation")
-        self.progress = QProgressBar()
-        bottom_layout.addWidget(self.run_btn)
-        bottom_layout.addWidget(self.progress)
-        bottom_box = QGroupBox()
-        bottom_box.setLayout(bottom_layout)
+        add_section(root, "View, Check, Process Result",
+            ["Network Parameter Display", "Check S-Parameter by BBS"]
+        )
 
-        # Results section
-        results_layout = QVBoxLayout()
-        self.download_snp = QPushButton("Download S-parameters")
-        self.download_spice = QPushButton("Download SPICE Model")
-        dl_layout = QHBoxLayout()
-        dl_layout.addWidget(self.download_snp)
-        dl_layout.addWidget(self.download_spice)
-        results_layout.addLayout(dl_layout)
-        results_box = QGroupBox("Results")
-        results_box.setLayout(results_layout)
+        add_section(root, "Generate Model",
+            ["Generate Broadband SPICE Model"],
+            disabled=["Generate Broadband SPICE Model"]
+        )
 
-        main_layout.addWidget(top_box)
-        main_layout.addWidget(setup_panel)
-        main_layout.addWidget(bottom_box)
-        main_layout.addWidget(results_box)
+        root.setExpanded(True)
+        for i in range(root.childCount()):
+            root.child(i).setExpanded(True)
 
-    def load_file(self):
-        file_path, _ = QFileDialog.getOpenFileName(self, "Open Layout", "", "Layout Files (*.aedb *.brd)")
-        if file_path:
-            # Placeholder: populate nets list with dummy data
-            self.nets_list.clear()
-            for net in ["VCC", "GND", "VIN"]:
-                self.nets_list.addItem(net)
-
-    def apply_styles(self):
-        style = f"""
-            QWidget {{
-                background-color: #f5f7fa;
-                color: #333333;
-                font-family: 'Segoe UI', 'Roboto', sans-serif;
-            }}
-            QGroupBox {{
-                border: 1px solid #ccc;
-                border-radius: 8px;
-                margin-top: 16px;
-                padding: 8px;
-            }}
-            QPushButton {{
-                background-color: #007bff;
-                color: white;
-                border-radius: 8px;
-                padding: 6px 12px;
-            }}
-            QPushButton:hover {{
-                box-shadow: 0 0 5px rgba(0,0,0,0.3);
-            }}
-            QProgressBar {{
-                border-radius: 8px;
-                height: 16px;
-            }}
-        """
-        self.setStyleSheet(style)
-
-
-def main():
-    app = QApplication(sys.argv)
-    window = PIApp()
-    window.show()
-    sys.exit(app.exec())
-
+        layout.addWidget(tree)
 
 if __name__ == "__main__":
-    main()
+    app = QApplication(sys.argv)
+    apply_dark_theme(app)               # 啟用深色模式
+    win = ModelExtractionWindow()
+    win.show()
+    sys.exit(app.exec())
