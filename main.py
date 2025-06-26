@@ -238,6 +238,14 @@ class ModelExtractionWindow(QMainWindow):
         self.messages.setFixedHeight(120)
         layout.addWidget(self.messages)
 
+    def closeEvent(self, event):
+        if self.oApp:
+            try:
+                self.oApp.Quit()
+            except Exception as exc:
+                self.messages.appendPlainText(f"Failed to close SIwave: {exc}")
+        super().closeEvent(event)
+
     def handle_item_double_clicked(self, item: QTreeWidgetItem, column: int):
         if item.text(0) == "Load Layout File" and not item.isDisabled():
             edb_file, _ = QFileDialog.getOpenFileName(
