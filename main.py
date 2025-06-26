@@ -19,6 +19,7 @@ from win32com import client
 from PySide6.QtGui import QFont, QPalette, QColor
 from PySide6.QtCore import Qt
 import xml.etree.ElementTree as ET
+import re
 import sys
 
 def apply_dark_theme(app: QApplication):
@@ -39,6 +40,54 @@ def apply_dark_theme(app: QApplication):
     app.setPalette(palette)
 
 
+def _parse_custom_stackup(text: str) -> ET.Element:
+    """Convert a $begin/$end style stackup file into an XML Element."""
+    lines = []
+    for raw in text.splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        m = re.match(r"\$begin '([^']+)'", line)
+        if m:
+            lines.append(f"<{m.group(1)}>")
+            continue
+        m = re.match(r"\$end '([^']+)'", line)
+        if m:
+            lines.append(f"</{m.group(1)}>")
+            continue
+        if line.startswith("Units(") and line.endswith(")"):
+            val = line[len("Units("):-1].strip("'\"")
+            lines.append(f"<Units>{val}</Units>")
+            continue
+        if line.startswith("Layer(") and line.endswith(")"):
+            content = line[len("Layer("):-1]
+            attrs = dict(re.findall(r"(\w+)=('(?:[^']*)'|[^,()]+)", content))
+            attr_str = " ".join(f'{k}="{v.strip("'\"")}"' for k, v in attrs.items())
+            lines.append(f"<Layer {attr_str}/>")
+            continue
+        if '(' in line and line.endswith(')'):
+            key, val = line[:-1].split('(', 1)
+            lines.append(f"<{key}>{val}</{key}>")
+            continue
+        if '=' in line:
+            key, val = line.split('=', 1)
+            lines.append(f"<{key}>{val.strip("'\"")}</{key}>")
+            continue
+    xml_text = "<StackupLayers>" + "".join(lines) + "</StackupLayers>"
+    return ET.fromstring(xml_text)
+
+
+def parse_stackup_file(path: str) -> ET.ElementTree:
+    """Parse a stackup file that may not be valid XML."""
+    try:
+        return ET.parse(path)
+    except (ET.ParseError, FileNotFoundError):
+        with open(path, "r", encoding="utf-8") as fh:
+            data = fh.read()
+        root = _parse_custom_stackup(data)
+        return ET.ElementTree(root)
+
+
 class StackupDialog(QDialog):
     def __init__(self, xml_path: str, parent=None):
         super().__init__(parent)
@@ -47,8 +96,8 @@ class StackupDialog(QDialog):
 
         self.xml_path = xml_path
         try:
-            self.tree = ET.parse(xml_path)
-        except (ET.ParseError, FileNotFoundError) as exc:
+            self.tree = parse_stackup_file(xml_path)
+        except Exception as exc:
             QMessageBox.critical(
                 self,
                 "Error",
@@ -56,7 +105,11 @@ class StackupDialog(QDialog):
             )
             raise
         self.root = self.tree.getroot()
-        self.stackup = self.root.find("Stackup")
+        self.stackup = self.root
+        if self.root.tag != "Stackup":
+            child = self.root.find("Stackup")
+            if child is not None:
+                self.stackup = child
         self.layers = self.stackup.find("Layers").findall("Layer")
         self.materials = self.stackup.find("Materials").findall("Material")
 
