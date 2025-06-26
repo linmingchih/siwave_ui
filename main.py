@@ -111,7 +111,8 @@ class StackupDialog(QDialog):
             if child is not None:
                 self.stackup = child
         self.layers = self.stackup.find("Layers").findall("Layer")
-        self.materials = self.stackup.find("Materials").findall("Material")
+        mats_elem = self.stackup.find("Materials")
+        self.materials = list(mats_elem) if mats_elem is not None else []
 
         self.tabs = QTabWidget(self)
 
@@ -133,8 +134,8 @@ class StackupDialog(QDialog):
             "Name", "Type", "Thickness", "Elevation", "Material"
         ])
         for row, layer in enumerate(self.layers):
-            table.setItem(row, 0, QTableWidgetItem(layer.get("Name", "")))
-            table.setItem(row, 1, QTableWidgetItem(layer.get("Type", "")))
+            table.setItem(row, 0, QTableWidgetItem(layer.get("LayerName", layer.get("Name", ""))))
+            table.setItem(row, 1, QTableWidgetItem(layer.get("LayerType", layer.get("Type", ""))))
             table.setItem(row, 2, QTableWidgetItem(layer.get("Thickness", "")))
             table.setItem(row, 3, QTableWidgetItem(layer.get("Elevation", "")))
             table.setItem(row, 4, QTableWidgetItem(layer.get("Material", "")))
@@ -174,9 +175,19 @@ class StackupDialog(QDialog):
             "Name", "Permittivity", "LossTangent"
         ])
         for row, mat in enumerate(self.materials):
-            table.setItem(row, 0, QTableWidgetItem(mat.get("Name", "")))
-            perm = mat.findtext("Permittivity/Double", default="")
-            loss = mat.findtext("DielectricLossTangent/Double", default="")
+            name = mat.get("Name") or mat.findtext("Name", default="")
+            perm_el = mat.find("Permittivity")
+            if perm_el is not None and perm_el.find("Double") is not None:
+                perm = perm_el.findtext("Double", default="")
+            else:
+                perm = mat.findtext("Permittivity", default="")
+            loss_el = mat.find("LossTangent") or mat.find("DielectricLossTangent")
+            if loss_el is not None and loss_el.find("Double") is not None:
+                loss = loss_el.findtext("Double", default="")
+            else:
+                loss = (mat.findtext("LossTangent") or
+                        mat.findtext("DielectricLossTangent", default=""))
+            table.setItem(row, 0, QTableWidgetItem(name))
             table.setItem(row, 1, QTableWidgetItem(perm))
             table.setItem(row, 2, QTableWidgetItem(loss))
         self.tabs.addTab(table, "Materials")
@@ -185,21 +196,31 @@ class StackupDialog(QDialog):
     def accept(self):
         # update layers
         for row, layer in enumerate(self.layers):
-            layer.set("Name", self.tab_general.item(row, 0).text())
-            layer.set("Type", self.tab_general.item(row, 1).text())
+            layer.set("LayerName", self.tab_general.item(row, 0).text())
+            layer.set("LayerType", self.tab_general.item(row, 1).text())
             layer.set("Thickness", self.tab_general.item(row, 2).text())
             layer.set("Elevation", self.tab_general.item(row, 3).text())
             layer.set("Material", self.tab_general.item(row, 4).text())
 
         # update materials
         for row, mat in enumerate(self.materials):
-            mat.set("Name", self.tab_material.item(row, 0).text())
-            perm = mat.find("Permittivity/Double")
-            if perm is not None:
-                perm.text = self.tab_material.item(row, 1).text()
-            loss = mat.find("DielectricLossTangent/Double")
-            if loss is not None:
-                loss.text = self.tab_material.item(row, 2).text()
+            name_el = mat.find("Name")
+            if name_el is not None:
+                name_el.text = self.tab_material.item(row, 0).text()
+            perm_el = mat.find("Permittivity")
+            if perm_el is not None:
+                dbl = perm_el.find("Double")
+                if dbl is not None:
+                    dbl.text = self.tab_material.item(row, 1).text()
+                else:
+                    perm_el.text = self.tab_material.item(row, 1).text()
+            loss_el = mat.find("LossTangent") or mat.find("DielectricLossTangent")
+            if loss_el is not None:
+                dbl = loss_el.find("Double")
+                if dbl is not None:
+                    dbl.text = self.tab_material.item(row, 2).text()
+                else:
+                    loss_el.text = self.tab_material.item(row, 2).text()
 
         self.tree.write(self.xml_path)
         super().accept()
