@@ -62,9 +62,8 @@ class StackupDialog(QDialog):
 
         self.tabs = QTabWidget(self)
 
+        # Only show the basic layer information and materials
         self.tab_general = self._create_general_tab()
-        self.tab_roughness = self._create_roughness_tab()
-        self.tab_cross = self._create_cross_tab()
         self.tab_material = self._create_material_tab()
 
         buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
@@ -138,15 +137,6 @@ class StackupDialog(QDialog):
             layer.set("Thickness", self.tab_general.item(row, 2).text())
             layer.set("Elevation", self.tab_general.item(row, 3).text())
             layer.set("Material", self.tab_general.item(row, 4).text())
-
-            layer.set("TopRoughness", self.tab_roughness.item(row, 1).text())
-            layer.set("BottomRoughness", self.tab_roughness.item(row, 2).text())
-            layer.set("SideRoughness", self.tab_roughness.item(row, 3).text())
-
-            layer.set("TraceCrossSectionShape", self.tab_cross.item(row, 1).text())
-            layer.set("TraceCrossSectionEtchStyle", self.tab_cross.item(row, 2).text())
-            layer.set("TraceCrossSectionTopEdgeRatio", self.tab_cross.item(row, 3).text())
-            layer.set("TraceCrossSectionBottomEdgeRatio", self.tab_cross.item(row, 4).text())
 
         # update materials
         for row, mat in enumerate(self.materials):
@@ -265,7 +255,7 @@ class ModelExtractionWindow(QMainWindow):
             if not self.oDoc:
                 self.messages.appendPlainText("Please load a layout first")
                 return
-            xml_path = os.path.join(os.getcwd(), "stack.xml")
+            xml_path = os.path.join(os.getcwd(), "stackup.xml")
             self.oDoc.ScrExportLayerStackup(xml_path)
             try:
                 dlg = StackupDialog(xml_path, self)
