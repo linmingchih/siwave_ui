@@ -89,12 +89,13 @@ def parse_stackup_file(path: str) -> ET.ElementTree:
 
 
 class StackupDialog(QDialog):
-    def __init__(self, xml_path: str, parent=None):
+    def __init__(self, xml_path: str, doc=None, parent=None):
         super().__init__(parent)
         self.setWindowTitle("Stackup Editor")
         self.resize(600, 400)
 
         self.xml_path = xml_path
+        self.doc = doc
         try:
             self.tree = parse_stackup_file(xml_path)
         except Exception as exc:
@@ -120,9 +121,13 @@ class StackupDialog(QDialog):
         self.tab_general = self._create_general_tab()
         self.tab_material = self._create_material_tab()
 
-        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons = QDialogButtonBox()
+        self._btn_apply = buttons.addButton(QDialogButtonBox.Apply)
+        buttons.addButton(QDialogButtonBox.Ok)
+        buttons.addButton(QDialogButtonBox.Cancel)
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.reject)
+        self._btn_apply.clicked.connect(self.apply_changes)
 
         layout = QVBoxLayout(self)
         layout.addWidget(self.tabs)
@@ -193,7 +198,8 @@ class StackupDialog(QDialog):
         self.tabs.addTab(table, "Materials")
         return table
 
-    def accept(self):
+    def _save_changes(self):
+        """Save table values back to the XML file."""
         # update layers
         for row, layer in enumerate(self.layers):
             layer.set("LayerName", self.tab_general.item(row, 0).text())
@@ -223,6 +229,17 @@ class StackupDialog(QDialog):
                     loss_el.text = self.tab_material.item(row, 2).text()
 
         self.tree.write(self.xml_path)
+
+    def apply_changes(self):
+        self._save_changes()
+        if self.doc is not None:
+            try:
+                self.doc.ScrImportLayerStackup(self.xml_path)
+            except Exception as exc:
+                QMessageBox.warning(self, "Error", f"Failed to import stackup:\n{exc}")
+
+    def accept(self):
+        self._save_changes()
         super().accept()
 
 class ModelExtractionWindow(QMainWindow):
@@ -332,7 +349,7 @@ class ModelExtractionWindow(QMainWindow):
             xml_path = os.path.join(os.getcwd(), "stackup.xml")
             self.oDoc.ScrExportLayerStackup(xml_path)
             try:
-                dlg = StackupDialog(xml_path, self)
+                dlg = StackupDialog(xml_path, self.oDoc, self)
             except Exception as exc:
                 self.messages.appendPlainText(f"Failed to open stackup editor: {exc}")
                 return
