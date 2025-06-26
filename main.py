@@ -234,16 +234,16 @@ class StackupDialog(QDialog):
 
     def apply_changes(self):
         self._save_changes()
-        if getattr(self, "oDoc", None) is not None:
-            try:
-                self.oDoc.ScrImportLayerStackup(self.xml_path)
-                parent = self.parent()
-                if parent and hasattr(parent, "messages"):
-                    parent.messages.appendPlainText(
-                        "Imported stackup from {}".format(self.xml_path)
-                    )
-            except Exception as exc:
-                QMessageBox.warning(self, "Error", f"Failed to import stackup:\n{exc}")
+
+        try:
+            self.oDoc.ScrImportLayerStackup(self.xml_path)
+            parent = self.parent()
+            if parent and hasattr(parent, "messages"):
+                parent.messages.appendPlainText(
+                    "Imported stackup from {}".format(self.xml_path)
+                )
+        except Exception as exc:
+            QMessageBox.warning(self, "Error", f"Failed to import stackup:\n{exc}")
 
     def accept(self):
         self._save_changes()
