@@ -233,9 +233,9 @@ class StackupDialog(QDialog):
 
     def apply_changes(self):
         self._save_changes()
-        if self.doc is not None:
+        if self.oDoc is not None:
             try:
-                self.doc.ScrImportLayerStackup(self.xml_path)
+                self.oDoc.ScrImportLayerStackup(self.xml_path)
             except Exception as exc:
                 QMessageBox.warning(self, "Error", f"Failed to import stackup:\n{exc}")
 
