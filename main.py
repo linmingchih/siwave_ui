@@ -73,7 +73,7 @@ def _parse_custom_stackup(text: str) -> ET.Element:
             key, val = line.split('=', 1)
             lines.append(f"<{key}>{val.strip("'\"")}</{key}>")
             continue
-    xml_text = "<StackupLayers>" + "".join(lines) + "</StackupLayers>"
+    xml_text = "".join(lines)
     return ET.fromstring(xml_text)
 
 
@@ -312,7 +312,8 @@ class ModelExtractionWindow(QMainWindow):
             self.oDoc.ScrExportLayerStackup(xml_path)
             try:
                 dlg = StackupDialog(xml_path, self)
-            except Exception:
+            except Exception as exc:
+                self.messages.appendPlainText(f"Failed to open stackup editor: {exc}")
                 return
             if dlg.exec() == QDialog.Accepted:
                 self.oDoc.ScrImportLayerStackup(xml_path)
