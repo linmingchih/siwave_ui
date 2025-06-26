@@ -228,7 +228,8 @@ class StackupDialog(QDialog):
                 else:
                     loss_el.text = self.tab_material.item(row, 2).text()
 
-        self.tree.write(self.xml_path)
+        ET.indent(self.tree, space="  ")
+        self.tree.write(self.xml_path, encoding="utf-8", xml_declaration=True)
 
     def apply_changes(self):
         self._save_changes()
