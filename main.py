@@ -7,11 +7,17 @@ from PySide6.QtWidgets import (
     QVBoxLayout,
     QFileDialog,
     QPlainTextEdit,
+    QDialog,
+    QTabWidget,
+    QTableWidget,
+    QTableWidgetItem,
+    QDialogButtonBox,
 )
 import os
 from win32com import client
 from PySide6.QtGui import QFont, QPalette, QColor
 from PySide6.QtCore import Qt
+import xml.etree.ElementTree as ET
 import sys
 
 def apply_dark_theme(app: QApplication):
@@ -31,6 +37,121 @@ def apply_dark_theme(app: QApplication):
     palette.setColor(QPalette.HighlightedText, Qt.white)
     app.setPalette(palette)
 
+
+class StackupDialog(QDialog):
+    def __init__(self, xml_path: str, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Stackup Editor")
+        self.resize(600, 400)
+
+        self.xml_path = xml_path
+        self.tree = ET.parse(xml_path)
+        self.root = self.tree.getroot()
+        self.stackup = self.root.find("Stackup")
+        self.layers = self.stackup.find("Layers").findall("Layer")
+        self.materials = self.stackup.find("Materials").findall("Material")
+
+        self.tabs = QTabWidget(self)
+
+        self.tab_general = self._create_general_tab()
+        self.tab_roughness = self._create_roughness_tab()
+        self.tab_cross = self._create_cross_tab()
+        self.tab_material = self._create_material_tab()
+
+        buttons = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(self.tabs)
+        layout.addWidget(buttons)
+
+    def _create_general_tab(self):
+        table = QTableWidget(len(self.layers), 5)
+        table.setHorizontalHeaderLabels([
+            "Name", "Type", "Thickness", "Elevation", "Material"
+        ])
+        for row, layer in enumerate(self.layers):
+            table.setItem(row, 0, QTableWidgetItem(layer.get("Name", "")))
+            table.setItem(row, 1, QTableWidgetItem(layer.get("Type", "")))
+            table.setItem(row, 2, QTableWidgetItem(layer.get("Thickness", "")))
+            table.setItem(row, 3, QTableWidgetItem(layer.get("Elevation", "")))
+            table.setItem(row, 4, QTableWidgetItem(layer.get("Material", "")))
+        self.tabs.addTab(table, "Layers")
+        return table
+
+    def _create_roughness_tab(self):
+        table = QTableWidget(len(self.layers), 4)
+        table.setHorizontalHeaderLabels([
+            "Name", "Top", "Bottom", "Side"
+        ])
+        for row, layer in enumerate(self.layers):
+            table.setItem(row, 0, QTableWidgetItem(layer.get("Name", "")))
+            table.setItem(row, 1, QTableWidgetItem(layer.get("TopRoughness", "")))
+            table.setItem(row, 2, QTableWidgetItem(layer.get("BottomRoughness", "")))
+            table.setItem(row, 3, QTableWidgetItem(layer.get("SideRoughness", "")))
+        self.tabs.addTab(table, "Roughness")
+        return table
+
+    def _create_cross_tab(self):
+        table = QTableWidget(len(self.layers), 5)
+        table.setHorizontalHeaderLabels([
+            "Name", "Shape", "Etch", "Top Edge", "Bottom Edge"
+        ])
+        for row, layer in enumerate(self.layers):
+            table.setItem(row, 0, QTableWidgetItem(layer.get("Name", "")))
+            table.setItem(row, 1, QTableWidgetItem(layer.get("TraceCrossSectionShape", "")))
+            table.setItem(row, 2, QTableWidgetItem(layer.get("TraceCrossSectionEtchStyle", "")))
+            table.setItem(row, 3, QTableWidgetItem(layer.get("TraceCrossSectionTopEdgeRatio", "")))
+            table.setItem(row, 4, QTableWidgetItem(layer.get("TraceCrossSectionBottomEdgeRatio", "")))
+        self.tabs.addTab(table, "Cross Section")
+        return table
+
+    def _create_material_tab(self):
+        table = QTableWidget(len(self.materials), 3)
+        table.setHorizontalHeaderLabels([
+            "Name", "Permittivity", "LossTangent"
+        ])
+        for row, mat in enumerate(self.materials):
+            table.setItem(row, 0, QTableWidgetItem(mat.get("Name", "")))
+            perm = mat.findtext("Permittivity/Double", default="")
+            loss = mat.findtext("DielectricLossTangent/Double", default="")
+            table.setItem(row, 1, QTableWidgetItem(perm))
+            table.setItem(row, 2, QTableWidgetItem(loss))
+        self.tabs.addTab(table, "Materials")
+        return table
+
+    def accept(self):
+        # update layers
+        for row, layer in enumerate(self.layers):
+            layer.set("Name", self.tab_general.item(row, 0).text())
+            layer.set("Type", self.tab_general.item(row, 1).text())
+            layer.set("Thickness", self.tab_general.item(row, 2).text())
+            layer.set("Elevation", self.tab_general.item(row, 3).text())
+            layer.set("Material", self.tab_general.item(row, 4).text())
+
+            layer.set("TopRoughness", self.tab_roughness.item(row, 1).text())
+            layer.set("BottomRoughness", self.tab_roughness.item(row, 2).text())
+            layer.set("SideRoughness", self.tab_roughness.item(row, 3).text())
+
+            layer.set("TraceCrossSectionShape", self.tab_cross.item(row, 1).text())
+            layer.set("TraceCrossSectionEtchStyle", self.tab_cross.item(row, 2).text())
+            layer.set("TraceCrossSectionTopEdgeRatio", self.tab_cross.item(row, 3).text())
+            layer.set("TraceCrossSectionBottomEdgeRatio", self.tab_cross.item(row, 4).text())
+
+        # update materials
+        for row, mat in enumerate(self.materials):
+            mat.set("Name", self.tab_material.item(row, 0).text())
+            perm = mat.find("Permittivity/Double")
+            if perm is not None:
+                perm.text = self.tab_material.item(row, 1).text()
+            loss = mat.find("DielectricLossTangent/Double")
+            if loss is not None:
+                loss.text = self.tab_material.item(row, 2).text()
+
+        self.tree.write(self.xml_path)
+        super().accept()
+
 class ModelExtractionWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -38,6 +159,9 @@ class ModelExtractionWindow(QMainWindow):
         self.setFixedSize(360, 640)
         self.move(0, 0)
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
+
+        self.oApp = None
+        self.oDoc = None
 
         central = QWidget()
         self.setCentralWidget(central)
@@ -115,11 +239,21 @@ class ModelExtractionWindow(QMainWindow):
             )
             if edb_file:
                 folder = os.path.dirname(edb_file)
-                oApp = client.Dispatch("SIwave.Application.2025.1")
-                oApp.RestoreWindow()
-                oDoc = oApp.GetActiveProject()
-                oDoc.ScrImportEDB(folder)
+                self.oApp = client.Dispatch("SIwave.Application.2025.1")
+                self.oApp.RestoreWindow()
+                self.oDoc = self.oApp.GetActiveProject()
+                self.oDoc.ScrImportEDB(folder)
                 self.messages.appendPlainText(f"Loaded layout: {folder}")
+        elif item.text(0) == "Check Stackup" and not item.isDisabled():
+            if not self.oDoc:
+                self.messages.appendPlainText("Please load a layout first")
+                return
+            xml_path = os.path.join(os.getcwd(), "stack.xml")
+            self.oDoc.ScrExportLayerStackup(xml_path)
+            dlg = StackupDialog(xml_path, self)
+            if dlg.exec() == QDialog.Accepted:
+                self.oDoc.ScrImportLayerStackup(xml_path)
+                self.messages.appendPlainText("Stackup updated")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
