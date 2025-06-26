@@ -1,5 +1,11 @@
 from PySide6.QtWidgets import (
-    QApplication, QMainWindow, QWidget, QTreeWidget, QTreeWidgetItem, QVBoxLayout
+    QApplication,
+    QMainWindow,
+    QWidget,
+    QTreeWidget,
+    QTreeWidgetItem,
+    QVBoxLayout,
+    QFileDialog,
 )
 from PySide6.QtGui import QFont, QPalette, QColor
 from PySide6.QtCore import Qt
@@ -32,17 +38,17 @@ class ModelExtractionWindow(QMainWindow):
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
 
-        tree = QTreeWidget()
-        tree.setHeaderHidden(True)
-        tree.setIndentation(12)
+        self.tree = QTreeWidget()
+        self.tree.setHeaderHidden(True)
+        self.tree.setIndentation(12)
 
         title_font = QFont()
         title_font.setPointSize(10)
         title_font.setBold(True)
 
-        root = QTreeWidgetItem(tree, ["Model Extraction"])
+        root = QTreeWidgetItem(self.tree, ["Model Extraction"])
         root.setFont(0, title_font)
-        tree.addTopLevelItem(root)
+        self.tree.addTopLevelItem(root)
 
         def add_section(parent, title, items, selected=None, disabled=None):
             sec = QTreeWidgetItem(parent, [title])
@@ -84,7 +90,18 @@ class ModelExtractionWindow(QMainWindow):
         for i in range(root.childCount()):
             root.child(i).setExpanded(True)
 
-        layout.addWidget(tree)
+        self.tree.itemDoubleClicked.connect(self.handle_item_double_clicked)
+
+        layout.addWidget(self.tree)
+
+    def handle_item_double_clicked(self, item: QTreeWidgetItem, column: int):
+        if item.text(0) == "Load Layout File" and not item.isDisabled():
+            QFileDialog.getOpenFileName(
+                self,
+                "Open Layout File",
+                "",
+                "Layout Files (*.aedb *.brd);;All Files (*)",
+            )
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
