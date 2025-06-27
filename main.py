@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QTabWidget,
     QTableWidget,
     QTableWidgetItem,
+    QComboBox,
     QDialogButtonBox,
     QMessageBox,
 )
@@ -139,14 +140,48 @@ class StackupDialog(QDialog):
         table.setHorizontalHeaderLabels([
             "Name", "Type", "Thickness", "Elevation", "Material"
         ])
+        material_names = [
+            mat.get("Name") or mat.findtext("Name", default="")
+            for mat in self.materials
+        ]
         for row, layer in enumerate(self.layers):
-            table.setItem(row, 0, QTableWidgetItem(layer.get("LayerName", layer.get("Name", ""))))
-            table.setItem(row, 1, QTableWidgetItem(layer.get("LayerType", layer.get("Type", ""))))
+            table.setItem(
+                row, 0,
+                QTableWidgetItem(layer.get("LayerName", layer.get("Name", "")))
+            )
+            table.setItem(
+                row, 1,
+                QTableWidgetItem(layer.get("LayerType", layer.get("Type", "")))
+            )
             table.setItem(row, 2, QTableWidgetItem(layer.get("Thickness", "")))
             table.setItem(row, 3, QTableWidgetItem(layer.get("Elevation", "")))
-            table.setItem(row, 4, QTableWidgetItem(layer.get("Material", "")))
+
+            combo = QComboBox()
+            combo.addItems(material_names)
+            current = layer.get("Material", "")
+            if current:
+                idx = combo.findText(current)
+                if idx >= 0:
+                    combo.setCurrentIndex(idx)
+            table.setCellWidget(row, 4, combo)
+        table.cellDoubleClicked.connect(self._on_general_double_clicked)
         self.tabs.addTab(table, "Layers")
         return table
+
+    def _on_general_double_clicked(self, row: int, column: int):
+        if column != 4:
+            return
+        widget = self.tab_general.cellWidget(row, 4)
+        if isinstance(widget, QComboBox):
+            mat_name = widget.currentText()
+        else:
+            item = self.tab_general.item(row, 4)
+            mat_name = item.text() if item else ""
+        for r in range(self.tab_material.rowCount()):
+            if self.tab_material.item(r, 0).text() == mat_name:
+                self.tabs.setCurrentWidget(self.tab_material)
+                self.tab_material.selectRow(r)
+                break
 
     def _create_roughness_tab(self):
         table = QTableWidget(len(self.layers), 4)
@@ -176,9 +211,9 @@ class StackupDialog(QDialog):
         return table
 
     def _create_material_tab(self):
-        table = QTableWidget(len(self.materials), 3)
+        table = QTableWidget(len(self.materials), 4)
         table.setHorizontalHeaderLabels([
-            "Name", "Permittivity", "LossTangent"
+            "Name", "Permittivity", "LossTangent", "Conductivity"
         ])
         for row, mat in enumerate(self.materials):
             name = mat.get("Name") or mat.findtext("Name", default="")
@@ -193,9 +228,15 @@ class StackupDialog(QDialog):
             else:
                 loss = (mat.findtext("LossTangent") or
                         mat.findtext("DielectricLossTangent", default=""))
+            cond_el = mat.find("Conductivity")
+            if cond_el is not None and cond_el.find("Double") is not None:
+                cond = cond_el.findtext("Double", default="")
+            else:
+                cond = mat.findtext("Conductivity", default="")
             table.setItem(row, 0, QTableWidgetItem(name))
             table.setItem(row, 1, QTableWidgetItem(perm))
             table.setItem(row, 2, QTableWidgetItem(loss))
+            table.setItem(row, 3, QTableWidgetItem(cond))
         self.tabs.addTab(table, "Materials")
         return table
 
@@ -207,7 +248,11 @@ class StackupDialog(QDialog):
             layer.set("LayerType", self.tab_general.item(row, 1).text())
             layer.set("Thickness", self.tab_general.item(row, 2).text())
             layer.set("Elevation", self.tab_general.item(row, 3).text())
-            layer.set("Material", self.tab_general.item(row, 4).text())
+            widget = self.tab_general.cellWidget(row, 4)
+            if isinstance(widget, QComboBox):
+                layer.set("Material", widget.currentText())
+            else:
+                layer.set("Material", self.tab_general.item(row, 4).text())
 
         # update materials
         for row, mat in enumerate(self.materials):
@@ -228,6 +273,13 @@ class StackupDialog(QDialog):
                     dbl.text = self.tab_material.item(row, 2).text()
                 else:
                     loss_el.text = self.tab_material.item(row, 2).text()
+            cond_el = mat.find("Conductivity")
+            if cond_el is not None:
+                dbl = cond_el.find("Double")
+                if dbl is not None:
+                    dbl.text = self.tab_material.item(row, 3).text()
+                else:
+                    cond_el.text = self.tab_material.item(row, 3).text()
 
         ET.indent(self.tree, space="  ")
         self.tree.write(self.xml_path, encoding="utf-8", xml_declaration=True)
