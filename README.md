@@ -2,6 +2,8 @@
 
 This repository contains a graphical user interface for setting up and running SIwave power integrity simulations. The interface is implemented using **PySide6** and helps engineers load layout files, select nets, configure frequency ranges, and start simulations. Results such as S-parameter plots can be viewed and downloaded directly from the application.
 
+The UI now uses an ANSYS-inspired color theme with a dark background and yellow highlights to match the official logo style.
+
 Run the application with:
 
 ```bash
