@@ -23,21 +23,26 @@ import xml.etree.ElementTree as ET
 import re
 import sys
 
-def apply_dark_theme(app: QApplication):
-    """設定深色主題調色盤"""
+def apply_ansys_theme(app: QApplication):
+    """Apply a color palette inspired by the ANSYS brand."""
     palette = QPalette()
-    # 背景色
-    palette.setColor(QPalette.Window, QColor(30, 30, 30))
-    palette.setColor(QPalette.Base, QColor(25, 25, 25))
-    # 文字色
+    # Dark background similar to the ANSYS black
+    palette.setColor(QPalette.Window, QColor(20, 20, 20))
+    palette.setColor(QPalette.Base, QColor(35, 35, 35))
+
+    # Text colors
     palette.setColor(QPalette.WindowText, Qt.white)
     palette.setColor(QPalette.Text, Qt.white)
-    # 按鈕
+
+    # Buttons
     palette.setColor(QPalette.Button, QColor(45, 45, 45))
     palette.setColor(QPalette.ButtonText, Qt.white)
-    # 選取
-    palette.setColor(QPalette.Highlight, QColor(80, 80, 80))
-    palette.setColor(QPalette.HighlightedText, Qt.white)
+
+    # Highlight uses the ANSYS yellow
+    ansys_yellow = QColor(255, 183, 27)
+    palette.setColor(QPalette.Highlight, ansys_yellow)
+    palette.setColor(QPalette.HighlightedText, Qt.black)
+
     app.setPalette(palette)
 
 
@@ -304,7 +309,7 @@ class StackupDialog(QDialog):
 class ModelExtractionWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("SIwave Model Extraction (Dark Mode)")
+        self.setWindowTitle("SIwave Model Extraction (ANSYS Style)")
         self.setFixedSize(360, 640)
         self.move(0, 0)
         self.setWindowFlag(Qt.WindowStaysOnTopHint)
@@ -418,7 +423,7 @@ class ModelExtractionWindow(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    apply_dark_theme(app)               # 啟用深色模式
+    apply_ansys_theme(app)
     win = ModelExtractionWindow()
     win.show()
     sys.exit(app.exec())
