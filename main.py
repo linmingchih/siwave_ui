@@ -136,9 +136,15 @@ class StackupDialog(QDialog):
         buttons.rejected.connect(self.reject)
         self._btn_apply.clicked.connect(self.apply_changes)
 
+        self._info = QPlainTextEdit(os.path.basename(xml_path))
+        self._info.setReadOnly(True)
+        self._info.setToolTip(xml_path)
+        self._info.setFixedHeight(28)
+
         layout = QVBoxLayout(self)
-        layout.addWidget(self.tabs)
         layout.addWidget(buttons)
+        layout.addWidget(self.tabs)
+        layout.addWidget(self._info)
 
     def _create_general_tab(self):
         table = QTableWidget(len(self.layers), 5)
@@ -322,7 +328,8 @@ class ModelExtractionWindow(QMainWindow):
         layout = QVBoxLayout(central)
 
         self.tree = QTreeWidget()
-        self.tree.setHeaderHidden(True)
+        self.tree.setHeaderHidden(False)
+        self.tree.setHeaderLabel("Task List")
         self.tree.setIndentation(12)
 
         title_font = QFont()
@@ -332,6 +339,10 @@ class ModelExtractionWindow(QMainWindow):
         root = QTreeWidgetItem(self.tree, ["Model Extraction"])
         root.setFont(0, title_font)
         self.tree.addTopLevelItem(root)
+
+        self.files_root = QTreeWidgetItem(self.tree, ["Loaded Files"])
+        self.files_root.setFont(0, title_font)
+        self.tree.addTopLevelItem(self.files_root)
 
         def add_section(parent, title, items, selected=None, disabled=None):
             sec = QTreeWidgetItem(parent, [title])
@@ -401,10 +412,15 @@ class ModelExtractionWindow(QMainWindow):
             )
             if edb_file:
                 folder = os.path.dirname(edb_file)
+                base = os.path.basename(folder)
                 self.oApp = client.Dispatch("SIwave.Application.2025.1")
                 self.oApp.RestoreWindow()
                 self.oDoc = self.oApp.GetActiveProject()
                 self.oDoc.ScrImportEDB(folder)
+                it = QTreeWidgetItem([base])
+                it.setToolTip(0, folder)
+                self.files_root.addChild(it)
+                self.files_root.setExpanded(True)
                 self.messages.appendPlainText(f"Loaded layout: {folder}")
         elif item.text(0) == "Check Stackup" and not item.isDisabled():
             if not self.oDoc:
